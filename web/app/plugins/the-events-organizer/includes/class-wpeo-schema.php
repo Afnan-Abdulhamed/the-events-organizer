@@ -47,7 +47,6 @@ class WPEO_Schema {
         // create DB tables actions
 		add_action('create_settings_table', array($this, 'create_settings_table'));
         add_action('create_event_meta_table', array($this, 'create_event_meta_table'));
-        add_action('create_events_table', array($this, 'create_events_table'));
     }
 
 
@@ -84,20 +83,6 @@ class WPEO_Schema {
 		dbDelta( $sql );
 	}
 
-
-	// function create_event_meta_table(){
-    //     $table_name = $this->wpdb->prefix . 'wpeo_event_meta';
-    //     $sql = "CREATE TABLE $table_name (
-	// 		meta_id bigint(20) unsigned NOT NULL auto_increment,
-	// 		event_id bigint(20) unsigned NOT NULL default '0',
-	// 		meta_key varchar(255) default NULL,
-	// 		meta_value longtext,
-	// 		PRIMARY KEY  (meta_id),
-	// 		KEY event_id (event_id),
-	// 		KEY meta_key (meta_key(191))
-	// 	) $this->charset_collate;";
-    //     dbDelta($sql);
-	// }
 	
 	/**
 	 * create the events table

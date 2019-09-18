@@ -18,11 +18,11 @@
 class WPEO_Activator {
 
 	/**
-	 * Short Description. (use period)
+	 * The code that runs during plugin activation.
 	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
+	* @since 1.0.0
+	* @see class-wpeo-schema.php
+	* @return void
 	 */
 	public static function activate() {
 
@@ -32,7 +32,6 @@ class WPEO_Activator {
 		WPEO_Schema::init();
 
 		do_action('create_settings_table');
-		do_action('create_event_meta_table');
 		do_action('create_events_table');
 	}
 }
