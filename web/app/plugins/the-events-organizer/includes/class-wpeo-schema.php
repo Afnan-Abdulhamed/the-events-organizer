@@ -1,50 +1,58 @@
 <?php
-
 /**
- *
  * the DB structure for the plugin
  *
  * @package the events organizer
  */
 
 
-
-
+/**
+ * class to create events database tables during the activation process
+ *
+ * @since      1.0.0
+ * @package   the events organizer
+ * @author     Afnan Abdelhameed <afnanabdulhamed@gmail.com>
+ */ 
 class WPEO_Schema {
+
+	/**
+	 * wordpress object to interact with the database
+	 *
+	 * @var private
+	 */
 	private $wpdb;
+
+
+	/**
+	 * The database character collate.
+	 *
+	 * @var private
+	 */
 	private  $charset_collate;
 
+
+	/**
+     * Inistantiate the WPEO_Schema class
+     *
+     * @return object
+     */
 	public function __construct()
     {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		/*
-		* Indexes have a maximum size of 767 bytes. Historically, we haven't need to be concerned about that.
-		* As of 4.2, however, we moved to utf8mb4, which uses 4 bytes per character. This means that an index which
-		* used to have room for floor(767/3) = 255 characters, now only has room for floor(767/4) = 191 characters.
-		*/
-		/**
-		 * Declare these as global
-		 *
-		 * @global wpdb   $wpdb
-		 * @global string $charset_collate
-		 */
-		global $wpdb, $charset_collate;
-		$this->wpdb = $wpdb;
 
-		/**
-		 * The database character collate.
-		 */	
+		$this->wpdb = $wpdb;
+		global $wpdb, $charset_collate;
 		$this->charset_collate = $wpdb->get_charset_collate();
    
-        // Photo Gallery
+        // create DB tables actions
 		add_action('create_settings_table', array($this, 'create_settings_table'));
         add_action('create_event_meta_table', array($this, 'create_event_meta_table'));
         add_action('create_events_table', array($this, 'create_events_table'));
-		
     }
 
+
     /**
-     * Inistantiate the CgTunes class
+     * Inistantiate the class
      *
      * @return object
      */
@@ -57,10 +65,15 @@ class WPEO_Schema {
         return $instance;
 	}
 	
-
-	function create_settings_table(){
-		
+	/**
+	 * create plugin settings table, (can be replaced by wordpress options)
+	 *
+	 * @return void
+	 */
+	function create_settings_table()
+	{
 		$table_name = $this->wpdb->prefix . 'wpeo_settings';
+		
 		$sql = "CREATE TABLE $table_name (
 			option_id bigint(20) unsigned NOT NULL auto_increment,
 			option_name varchar(191) NOT NULL default '',
@@ -72,36 +85,43 @@ class WPEO_Schema {
 	}
 
 
-	function create_event_meta_table(){
-        $table_name = $this->wpdb->prefix . 'wpeo_event_meta';
-        $sql = "CREATE TABLE $table_name (
-			meta_id bigint(20) unsigned NOT NULL auto_increment,
-			event_id bigint(20) unsigned NOT NULL default '0',
-			meta_key varchar(255) default NULL,
-			meta_value longtext,
-			PRIMARY KEY  (meta_id),
-			KEY event_id (event_id),
-			KEY meta_key (meta_key(191))
-		) $this->charset_collate;";
-        dbDelta($sql);
-	}
+	// function create_event_meta_table(){
+    //     $table_name = $this->wpdb->prefix . 'wpeo_event_meta';
+    //     $sql = "CREATE TABLE $table_name (
+	// 		meta_id bigint(20) unsigned NOT NULL auto_increment,
+	// 		event_id bigint(20) unsigned NOT NULL default '0',
+	// 		meta_key varchar(255) default NULL,
+	// 		meta_value longtext,
+	// 		PRIMARY KEY  (meta_id),
+	// 		KEY event_id (event_id),
+	// 		KEY meta_key (meta_key(191))
+	// 	) $this->charset_collate;";
+    //     dbDelta($sql);
+	// }
 	
-	
-	function create_events_table(){
+	/**
+	 * create the events table
+	 *
+	 * @return void
+	 */
+	function create_events_table()
+	{
         $table_name = $this->wpdb->prefix . 'wpeo_events';
-        $sql = "CREATE TABLE $table_name (
+	   
+	   	$sql = "CREATE TABLE $table_name (
 			ID bigint(20) unsigned NOT NULL auto_increment,
+			post_id bigint(20) unsigned NOT NULL,
+			event_cover_image bigint(20) unsigned NOT NULL,
 			event_author bigint(20) unsigned NOT NULL default '0',
-			event_content longtext NOT NULL,
+			event_description longtext NOT NULL,
 			event_title text NOT NULL,
-			event_date datetime NOT NULL default '0000-00-00 00:00:00',
-			event_modified datetime NOT NULL default '0000-00-00 00:00:00',
-			guid varchar(255) NOT NULL default '',
+			event_date date NULL DEFAULT NULL,
+			event_start_time time NULL DEFAULT NULL,
+			event_end_time time NULL DEFAULT NULL,
 			PRIMARY KEY  (ID),
 			KEY event_author (event_author)
+			KEY post_id (post_id)
 		) $this->charset_collate;";
         dbDelta($sql);
     }
-	
-		
 }
