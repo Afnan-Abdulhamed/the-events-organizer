@@ -130,6 +130,9 @@ class WPEO_Events_Organizer {
 		// add metaboxes to events post type
 		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'register_events_metaboxes' );
 
+		// save event meta data
+		$this->loader->add_action( 'save_post', $plugin_admin, 'save_events_metadat', 1, 2 );
+
 	}
 
 
