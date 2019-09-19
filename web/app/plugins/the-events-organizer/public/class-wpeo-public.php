@@ -60,7 +60,7 @@ class WPEO_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-
+		wp_enqueue_style( 'bootstrap', "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/plugin-name-public.css', array(), $this->version, 'all' );
 
 	}
@@ -109,7 +109,7 @@ class WPEO_Public {
 	public function include_events_single_template( $single_template ) 
 	{
 		global $post;
-
+		
 		if ( 'events' == $post->post_type ) {
 			$theme_single_event = locate_template(['single-events.php'], false);
 
