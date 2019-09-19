@@ -1,14 +1,14 @@
 <?php
 
 /**
- * functions related to the event organizer backend
+ * functions related to the event organizer admin side
  *
  * @package the events organizer
  */
 
 
 /**
- * The admin-specific functionalityn.
+ * The admin-specific functionality.
  *
  * @since      1.0.0
  * @package   The Events Organizer Plugin
@@ -41,8 +41,9 @@ class WPEO_Admin
      * @since    1.0.0
      * @param      string    $plugin_name       The name of this plugin.
      * @param      string    $version    The version of this plugin.
+     * @return void
      */
-    public function __construct($plugin_name, $version)
+    function __construct($plugin_name, $version)
     {
         $this->plugin_name = $plugin_name;
         $this->version = $version;
@@ -54,7 +55,7 @@ class WPEO_Admin
      *
      * @since    1.0.0
      */
-    public function enqueue_styles()
+    function enqueue_styles()
     {
         wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wpeo-admin-styles.css', array(), $this->version, 'all');
     }
@@ -64,21 +65,22 @@ class WPEO_Admin
      * Register the JavaScript
      *
      * @since  1.0.0
+     * @return void
      */
-    public function enqueue_scripts()
+    function enqueue_scripts()
     {   
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wpeo-admin-scripts.js', array( 'jquery' ), $this->version, false);
         wp_enqueue_script( 'jqueryUI', "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js" );
+        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/wpeo-admin-scripts.js', array( 'jquery' ), $this->version, false);
     }
 
 
     /**
-     * settings page to handle plugin configs
+     * register page to handle plugin configs
      *
      * @since  1.0.0
      * @return void
      */
-    public function register_options_page()
+    function register_options_page()
     {
         add_menu_page(
             'Theme Options',
@@ -93,15 +95,17 @@ class WPEO_Admin
     
 
 	/**
-     * settings page fields registering
+     * register config. fields for the settings page
+     * 
      * @since  1.0.0
      * @return void
      */
-    public function register_options_fields()
+    function register_options_fields()
     {
         register_setting('wpeo-settings-group', 'wpeo_enable_past_events');
         register_setting('wpeo-settings-group', 'wpeo_events_listing_no');
 	}
+
 
 	/**
      * register plugin custom post types
@@ -109,18 +113,50 @@ class WPEO_Admin
      * @since  1.0.0
      * @return void
      */
-    public function register_wpeo_cpt()
+    function register_wpeo_cpt()
     {
 		require_once plugin_dir_path(__FILE__) . '/post-types/wpeo-events-cpt.php';
     }
-    
+
+
     /**
-     * register meteaboxes
+     * register settings submenu for events cpt menu item
+     * 
+     * @since 1.0.0
+     * @return void
+     */
+    function register_settings_submenu()
+    {
+        add_submenu_page(
+            'edit.php?post_type=events',
+            'Event Organizer Settings',
+            'Event Organizer Settings',
+            'manage_options',
+            'event_organizer_settings_submenu',
+            array($this,'setting_page')
+        );
+    }
+    
+
+    /**
+     * include settings page template
+     *
+     * @since 1.0.0
+     * @return void
+     */
+    function setting_page(){
+        require_once plugin_dir_path(__FILE__) . '/partials/wpeo_settings_page_template.php';
+    }
+
+
+
+    /**
+     * register events posts meteaboxes
 	 * 
      * @since  1.0.0
      * @return void
      */
-    public function register_events_metaboxes()
+    function register_events_metaboxes()
     {
         add_meta_box(
             'wpeo_event_date',
@@ -132,9 +168,17 @@ class WPEO_Admin
         );
     }
 
+
+    /**
+     * include event metaboxe template
+     *
+     * @since 1.0.0
+     * @return void
+     */
     function wpeo_event_date_metabox() {
         require_once plugin_dir_path(__FILE__) . '/metaboxes/wpeo-event-date-metabox.php';
     }
+
     
     /**
      * store event meta data

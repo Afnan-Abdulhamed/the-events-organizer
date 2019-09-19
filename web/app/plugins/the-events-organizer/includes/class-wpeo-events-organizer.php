@@ -10,12 +10,10 @@
  
 /**
  *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area
+ * A class to handlepublic-facing side of the site and the admin area
  *
  * @since      1.0.0
- * @package   The Events Organizer Plugin
- * @subpackage the-events-organizer/includes
+ * @package   the-events-oranizer
  * @author     Afnan Abdelhameed <afnanabdulhameed@gmail.com>
  */
 class WPEO_Events_Organizer {
@@ -58,8 +56,8 @@ class WPEO_Events_Organizer {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'PLUGIN_NAME_VERSION' ) ) {
-			$this->version = PLUGIN_NAME_VERSION;
+		if ( defined( 'WPEO_VERSION' ) ) {
+			$this->version = WPEO_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
@@ -107,6 +105,7 @@ class WPEO_Events_Organizer {
 
 	}
 
+
 	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
@@ -128,6 +127,10 @@ class WPEO_Events_Organizer {
 
 		// registering custom post types
 		$this->loader->add_action( 'init', $plugin_admin, 'register_wpeo_cpt' );
+		
+		// add settings page as submenu for events cpt
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'register_settings_submenu' );
+
 		// add metaboxes to events post type
 		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'register_events_metaboxes' );
 
@@ -155,7 +158,6 @@ class WPEO_Events_Organizer {
 
 		// event status transitions
 		$this->loader->add_action( 'transition_post_status', $plugin_admin, 'on_all_status_transitions',2,3);
-
 
 	}
 
