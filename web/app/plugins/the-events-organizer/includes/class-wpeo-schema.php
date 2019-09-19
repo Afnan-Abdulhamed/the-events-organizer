@@ -46,7 +46,7 @@ class WPEO_Schema {
    
         // create DB tables actions
 		add_action('create_settings_table', array($this, 'create_settings_table'));
-        add_action('create_event_meta_table', array($this, 'create_event_meta_table'));
+        add_action('create_events_table', array($this, 'create_events_table'));
     }
 
 
@@ -104,7 +104,7 @@ class WPEO_Schema {
 			event_start_time time NULL DEFAULT NULL,
 			event_end_time time NULL DEFAULT NULL,
 			PRIMARY KEY  (ID),
-			KEY event_author (event_author)
+			KEY event_author (event_author),
 			KEY post_id (post_id)
 		) $this->charset_collate;";
         dbDelta($sql);
