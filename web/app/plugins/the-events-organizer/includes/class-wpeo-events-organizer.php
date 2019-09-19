@@ -152,8 +152,16 @@ class WPEO_Events_Organizer {
 
 		$plugin_admin = new WPEO_Events( $this->get_plugin_name(), $this->get_version(), 1, 2);
 
-		$this->loader->add_action( 'save_post', $plugin_admin, 'create', 1, 2);
-		
+		// save event hooks
+		$this->loader->add_action( 'save_post', $plugin_admin, 'save', 1, 2);
+
+		// delete event hooks
+		$this->loader->add_action( 'delete_post', $plugin_admin, 'delete', 1, 1);
+
+		// event status transitions
+		$this->loader->add_action( 'transition_post_status', $plugin_admin, 'on_all_status_transitions',2,3);
+
+
 	}
 
 

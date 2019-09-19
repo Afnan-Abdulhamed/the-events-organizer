@@ -16,35 +16,19 @@
 class WPEO_Events{
 
 	/**
-	 * wordpress object to interact with the database
-	 *
-	 * @var private
-	 */
-	private $wpdb;
-
-
-	/**
-	 * The database character collate.
-	 *
-	 * @var private
-	 */
-	private  $charset_collate;
-
-
-	/**
      * Inistantiate the WPEO_Schema class
      *
      * @return object
      */
 	public function __construct()
     {
-		global $wpdb, $charset_collate;
-
-		$this->wpdb = $wpdb;
-		$this->charset_collate = $wpdb->get_charset_collate();
-   
         // save DB tables actions
-        add_action('save', array($this, 'save'));
+		add_action('save', array($this, 'save'));
+		// delete DB table action
+		add_action('delete', array($this, 'delete'));
+		// status transitions
+		add_action('on_all_status_transitions', array($this, 'on_all_status_transitions'));
+
     }
 
 
@@ -65,18 +49,27 @@ class WPEO_Events{
 	/**
 	 * save event (create/edit)
 	 *
+	 * @param int $post_id
+	 * @param object $post
 	 * @return void
 	 */
 	function save($post_id, $post)
-	{
-		if(! $_POST){
+	{ 
+		global $wpdb;
+		// check request and post type
+		if(! $_POST || $post->post_type != 'events'){
 			return $post_id;
 		}
-
+		// check existance 
+		$record_exists = $wpdb->get_var( 
+			"SELECT COUNT(*) 
+			 FROM $wpdb->prefix".'wpeo_events'." WHERE post_id = $post_id");
+		// data to be saved
 		$event_details = [
 			'post_id'            => $post_id, 
 			'event_date'         => $_POST['event_date'],
 			'event_title'        => $post->post_title,
+			'event_status'		 => ($post->post_status == 'publish') ? 1 : 0,
 			'event_author'       => $post->post_author,
 			'event_end_time'     => $_POST['evnt_end_time'],
 			'event_start_time'   => $_POST['evnt_start_time'],
@@ -84,9 +77,63 @@ class WPEO_Events{
 			'event_description'  => $post->post_content
 		];
 
-		$table_name = $this->wpdb->prefix . 'wpeo_events';
-		$this->wpdb->insert( $table_name, $event_details );
+		$table_name = $wpdb->prefix . 'wpeo_events';
+		// update the record if exists or create new one
+		( $record_exists ) ? 
+		$wpdb->update( $table_name, $event_details, ['post_id' => $post_id] ) :
+		$wpdb->insert( $table_name, $event_details );
 	}
 
-	
+
+	/**
+	 * delete event permanently
+	 *
+	 * @param int $post_id
+	 * @return void
+	 */
+	function delete($post_id)
+	{ 
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'wpeo_events';
+
+		if ( $wpdb->get_var( 
+				$wpdb->prepare( 
+					"SELECT post_id 
+					FROM $table_name 
+					WHERE post_id = %d", $post_id 
+				) 
+			)) 
+		{
+			$wpdb->query( $wpdb->prepare( "DELETE FROM $table_name WHERE post_id = %d", $post_id ));
+		}
+	}
+
+
+	/**
+	 * handle event status transitions
+	 * update event status when post status changes 
+	 * ex from publish to trash , trash to draft ...
+	 *
+	 * @param string $new_status
+	 * @param string $old_status
+	 * @param int $post
+	 * @return void
+	 */
+	function on_all_status_transitions( $new_status, $old_status, $post )
+	{ 
+		// if the post not event dont do anything
+		if( $post->post_type != 'events' ){
+			return $post->ID;
+		}
+
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wpeo_events';
+
+		// update if the status changed 
+		if ( $new_status != $old_status) {
+				$status = ( $new_status == 'publish') ? 1 : 0 ;
+				$wpdb->update( $table_name, ['event_status' => $status], ['post_id' => $post->ID] );
+			}
+	}
 }
