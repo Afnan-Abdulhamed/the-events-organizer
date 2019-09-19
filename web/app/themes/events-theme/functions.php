@@ -159,3 +159,168 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+
+
+define('temp_file', ABSPATH.'/_temp_out.txt' );
+
+add_action("activated_plugin", "activation_handler1");
+function activation_handler1(){
+    $cont = ob_get_contents();
+    if(!empty($cont)) file_put_contents(temp_file, $cont );
+}
+
+add_action( "pre_current_active_plugins", "pre_output1" );
+function pre_output1($action){
+    if(is_admin() && file_exists(temp_file))
+    {
+        $cont= file_get_contents(temp_file);
+        if(!empty($cont))
+        {
+            echo '<div class="error"> Error Message:' . $cont . '</div>';
+            @unlink(temp_file);
+        }
+    }
+}
+
+// add_action('pre_post_update', 'before_data_is_saved_function');
+
+// function before_data_is_saved_function($post_id) {
+// 	$msg = '<pre>' . var_export($post_id, true) . '</pre>';
+// return true;
+// }
+// function wpb_custom_post_status(){
+//     register_post_status('rejected', array(
+//         'label'                     => 'rejected',
+//         'public'                    => false,
+//         'exclude_from_search'       => false,
+//         'show_in_admin_all_list'    => false,
+//         'show_in_admin_status_list' => false,
+//         'label_count'               => _n_noop( 'Rejected <span class="count">(%s)</span>', 'Rejected <span class="count">(%s)</span>' ),
+//     ) );
+// }
+// add_action( 'init', 'wpb_custom_post_status' );
+
+// add_filter( 'wp_insert_post_data', 'post_publish_filter_wpse_82356',99,2 );
+
+// function post_publish_filter_wpse_82356( $data,  $postarr ) {
+// 	global $wpdb;
+//     // view/manipulate $data
+//     if ($data['post_type'] == 'events') {
+// 		$wpdb->insert('wp_wpeo_events', 
+// 			array("event_author" => 0, 
+// 			"event_date" => "2019-09-17 00:00:00", 
+// 			"event_title"=>"addd",
+// 			"event_content"=>"ssssssssssss"));
+// 			// $data['post_status'] = '';
+// 			// var_dump($data); wp_die('dd');
+// 			$data['post_status'] = 'rejected';
+// 		return $data ;
+
+//     }
+//     return $data;
+// }
+
+// function save_post_callback($post_id){wp_die("kj");
+//     global $post; 
+//     if ($post->post_type == 'events'){
+// 		$wpdb->insert('wp_wpeo_events', 
+// 			array("event_author" => 0, 
+// 			"event_date" => "2019-09-17 00:00:00", 
+// 			"event_title"=>"addd",
+// 			"event_content"=>"ssssssssssss"));
+//         return 0;
+// 	}
+//     //if you get here then it's your post type so do your thing....
+// }
+
+
+// function my_custom_save_post( $post_id ) {
+// global $wpdb;
+//     $wpdb->insert('wp_wpeo_events', 
+// 		array("event_author" => 0, 
+// 		"event_date" => "2019-09-17 00:00:00", 
+// 		"event_title"=>"addd",
+// 		"event_content"=>"ssssssssssss"));
+// }
+// add_action( 'save_post_events', 'my_custom_save_post' );
+
+
+
+
+function populate_posts_data( $posts, $query ) {
+	global $wpdb;
+        $table_name = $wpdb->prefix . 'wpeo_events';
+
+       $results= $wpdb->get_results(
+            "SELECT * 
+            FROM $table_name"
+		);
+		// print_r($query);wp_die();		
+	print_r($results);wp_die();
+
+	
+	// if ( !count( $posts ) ) 
+	// 	return $posts;  // posts array is empty send it back with thanks.
+	// while( $posts as $post ) {
+	// 	// query to get custom post data from custom table
+	// 	$query = "SELECT * FROM {$wpdb->prefix}my_plugin_table WHERE post_id={$post->ID}";
+	// 	$results = $wpdb->get_results( $query );
+	// }
+	return $posts = $results;
+}
+// add_filter( 'the_posts', 'populate_posts_data',99,2 );
+
+
+
+
+
+
+
+// add_filter( 'manage_events_posts_columns', 'set_custom_edit_book_columns' );
+// add_action( 'manage_events_posts_custom_column' , 'custom_book_column', 99, 2 );
+
+// function set_custom_edit_book_columns($columns) {
+// 	$cat = $columns['categories'];
+// 	unset( $columns['tags'], $columns['title'], $columns['date'], $columns['categories']  );
+//     $columns['event_title'] = 'Title';
+// 	$columns['event_author'] = 'Organizer';
+// 	$columns['categories'] = $cat;
+	
+
+//     return $columns;
+// }
+
+// function custom_book_column( $column, $post_id ) {
+	
+// 	global $wpdb;
+// 	$table_name = $wpdb->prefix . 'wpeo_events';
+
+// 	$results= $wpdb->get_results(
+// 		"SELECT * 
+// 		FROM $table_name
+// 		"
+// 	);
+//     switch ( $column ) {
+//         case 'event_title' : echo "sss";
+//     }
+// }
+
+
+// /**
+//  * Meta box display callback.
+//  *
+//  * @param WP_Post $post Current post object.
+//  */
+// function wpdocs_my_display_callback( $post ) {
+//     // Display code/markup goes here. Don't forget to include nonces!
+// }
+ 
+// /**
+//  * Save meta box content.
+//  *
+//  * @param int $post_id Post ID
+//  */
+// function wpdocs_save_meta_box( $post_id ) {
+//     // Save logic goes here. Don't forget to include nonce checks!
+// }
+// add_action( 'save_post', 'wpdocs_save_meta_box' );

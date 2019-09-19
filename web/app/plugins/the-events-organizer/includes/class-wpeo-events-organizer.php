@@ -76,9 +76,7 @@ class WPEO_Events_Organizer {
 	 * Include the following files that make up the plugin:
 	 *
 	 * - WPEO_Loader. Orchestrates the hooks of the plugin.
-	 * - Plugin_Name_i18n. Defines internationalization functionality.
 	 * - WPEO_Admin. Defines all hooks for the admin area.
-	 * - Plugin_Name_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -127,9 +125,6 @@ class WPEO_Events_Organizer {
 		// plugin settings page
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'register_options_page' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_options_fields' );
-		
-		// events listing page
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'register_events_listing_page' );
 
 		// registering custom post types
 		$this->loader->add_action( 'init', $plugin_admin, 'register_wpeo_cpt' );

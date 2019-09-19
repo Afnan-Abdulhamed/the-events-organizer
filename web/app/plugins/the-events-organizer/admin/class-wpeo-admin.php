@@ -48,6 +48,7 @@ class WPEO_Admin
         $this->version = $version;
     }
 
+
     /**
      * Register the stylesheets
      *
@@ -58,6 +59,7 @@ class WPEO_Admin
         wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/wpeo-admin-styles.css', array(), $this->version, 'all');
     }
 
+    
     /**
      * Register the JavaScript
      *
@@ -89,36 +91,7 @@ class WPEO_Admin
         );
     }
     
-    
-    /**
-     * events listing page
-     *
-     * @since  1.0.0
-     * @return void
-     */
-    public function register_events_listing_page()
-    {
-        add_menu_page( 
-            'Events', 
-            'Events', 
-            'manage_options', 
-            'events-list',
-            array($this,'events_list_page'),
-            'dashicons-calendar-alt',
-            5
-        );
-    }
 
-    function events_list_page(){
-        require_once plugin_dir_path(__FILE__) . 'partials\wpeo-events-listing-template.php';
-        $eventsList = new WPEO_Events_Listing_Table();
-        echo '<div class="wrap">
-              <h2>All Events</h2>'; 
-        $eventsList->prepare_items(); 
-        $eventsList->display(); 
-        
-        echo '</div>'; 
-      }
 	/**
      * settings page fields registering
      * @since  1.0.0
