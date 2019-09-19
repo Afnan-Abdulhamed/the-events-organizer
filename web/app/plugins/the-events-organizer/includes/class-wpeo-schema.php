@@ -95,18 +95,21 @@ class WPEO_Schema {
 	   
 	   	$sql = "CREATE TABLE $table_name (
 			ID bigint(20) unsigned NOT NULL auto_increment,
-			post_id bigint(20) unsigned NOT NULL,
-			event_cover_image bigint(20) unsigned NOT NULL,
-			event_author bigint(20) unsigned NOT NULL default '0',
-			event_description longtext NOT NULL,
 			event_title text NOT NULL,
+			post_id bigint(20) unsigned NOT NULL,
+			event_description longtext NOT NULL,
 			event_date date NULL DEFAULT NULL,
 			event_start_time time NULL DEFAULT NULL,
 			event_end_time time NULL DEFAULT NULL,
+			event_cover_image bigint(20) unsigned NOT NULL,
+			event_author bigint(20) unsigned NOT NULL default '0',
+			event_status tinyint(1) NOT NULL default '1',
+			deleted_at datetime NOT NULL default '0000-00-00 00:00:00'
 			PRIMARY KEY  (ID),
 			KEY event_author (event_author),
 			KEY post_id (post_id)
 		) $this->charset_collate;";
         dbDelta($sql);
-    }
+	}
+	
 }
