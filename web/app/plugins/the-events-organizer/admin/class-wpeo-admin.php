@@ -172,10 +172,10 @@ class WPEO_Admin
      */
     function save_events_metadat( $post_id, $post ) {
         // Return if the user doesn't have edit permissions.
-        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        if ( ! current_user_can( 'edit_post', $post_id ) || ! $_POST) {
             return $post_id;
         }
-       
+        
         $meta_data['event_date']      = esc_textarea( $_POST['event_date'] );
         $meta_data['evnt_end_time']   = esc_textarea( $_POST['evnt_end_time'] );
         $meta_data['evnt_start_time'] = esc_textarea( $_POST['evnt_start_time'] );
