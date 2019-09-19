@@ -65,8 +65,11 @@ class WPEO_Events_Organizer {
 
 		$this->load_dependencies();
 		$this->define_admin_hooks();
+		$this->define_public_hooks();
 		$this->define_events_hooks();
+		$this->define_events_shortcodes();
 	}
+
 
 	/**
 	 * Load the required dependencies for this plugin.
@@ -100,6 +103,17 @@ class WPEO_Events_Organizer {
 		 * The class responsible for defining all crud actions for the events.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/events-crud/class-wpeo-events.php';
+
+		/**
+		 * The class responsible for defining plugin shortcodes
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wpeo-shortcodes.php';
+
+		/**
+		 * The class responsible for defining all actions that occur in the public-facing
+		 * side of the site.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wpeo-public.php';
 
 		$this->loader = new WPEO_Loader();
 
@@ -141,6 +155,21 @@ class WPEO_Events_Organizer {
 
 
 	/**
+	 * Register all of the hooks related to the public-facing functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_public_hooks() {
+		$plugin_public = new WPEO_Public( $this->get_plugin_name(), $this->get_version() );
+		
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+	}
+
+
+	/**
 	 * Register all events crud related hooks
 	 *
 	 * @since    1.0.0
@@ -148,7 +177,7 @@ class WPEO_Events_Organizer {
 	 */
 	private function define_events_hooks() {
 
-		$plugin_admin = new WPEO_Events( $this->get_plugin_name(), $this->get_version(), 1, 2);
+		$plugin_admin = new WPEO_Events();
 
 		// save event hooks
 		$this->loader->add_action( 'save_post', $plugin_admin, 'save', 1, 2);
@@ -159,6 +188,18 @@ class WPEO_Events_Organizer {
 		// event status transitions
 		$this->loader->add_action( 'transition_post_status', $plugin_admin, 'on_all_status_transitions',2,3);
 
+	}
+
+
+	/**
+	 * Register all events crud related hooks
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_events_shortcodes() {
+
+		$shortcodes = new WPEO_Shortcodes();
 	}
 
 
