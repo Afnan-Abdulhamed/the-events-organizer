@@ -26,7 +26,7 @@ class WPEO_Events_Organizer {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Plugin_Name_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      WPEO_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -67,6 +67,7 @@ class WPEO_Events_Organizer {
 
 		$this->load_dependencies();
 		$this->define_admin_hooks();
+		$this->define_events_hooks();
 	}
 
 	/**
@@ -74,7 +75,7 @@ class WPEO_Events_Organizer {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Plugin_Name_Loader. Orchestrates the hooks of the plugin.
+	 * - WPEO_Loader. Orchestrates the hooks of the plugin.
 	 * - Plugin_Name_i18n. Defines internationalization functionality.
 	 * - WPEO_Admin. Defines all hooks for the admin area.
 	 * - Plugin_Name_Public. Defines all hooks for the public side of the site.
@@ -91,15 +92,20 @@ class WPEO_Events_Organizer {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-plugin-name-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wpeo-loader.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
-		 * //FIXME: for styles
+		 * like registering cpt, metaboxes, menu pages ... 
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wpeo-admin.php';
 
-		$this->loader = new Plugin_Name_Loader();
+		/**
+		 * The class responsible for defining all crud actions for the events.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/events-crud/class-wpeo-events.php';
+
+		$this->loader = new WPEO_Loader();
 
 	}
 
@@ -131,8 +137,23 @@ class WPEO_Events_Organizer {
 		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'register_events_metaboxes' );
 
 		// save event meta data
-		$this->loader->add_action( 'save_post', $plugin_admin, 'save_events_metadat', 1, 2 );
+		$this->loader->add_action( 'save_post', $plugin_admin, 'save_events_metadat', 1, 2);
 
+	}
+
+
+	/**
+	 * Register all events crud related hooks
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_events_hooks() {
+
+		$plugin_admin = new WPEO_Events( $this->get_plugin_name(), $this->get_version(), 1, 2);
+
+		$this->loader->add_action( 'save_post', $plugin_admin, 'create', 1, 2);
+		
 	}
 
 
@@ -160,7 +181,7 @@ class WPEO_Events_Organizer {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    Plugin_Name_Loader    Orchestrates the hooks of the plugin.
+	 * @return    WPEO_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;
