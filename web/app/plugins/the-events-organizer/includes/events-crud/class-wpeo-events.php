@@ -28,7 +28,8 @@ class WPEO_Events{
 		add_action('delete', array($this, 'delete'));
 		// status transitions
 		add_action('on_all_status_transitions', array($this, 'on_all_status_transitions'));
-
+		// get single event data
+		add_action('sing_event', array($this, 'sing_event'));
     }
 
 
@@ -136,4 +137,26 @@ class WPEO_Events{
 				$wpdb->update( $table_name, ['event_status' => $status], ['post_id' => $post->ID] );
 			}
 	}
+
+
+	/**
+	 * get data for single event
+	 *
+	 * @param int $post_id
+	 * @return void
+	 */
+	function single_event( $post_id )
+	{ 
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'wpeo_events';
+
+		$post_data = $wpdb->get_row( "SELECT * FROM $table_name WHERE post_id = $post_id" );
+		
+		if($post_data){
+			return $post_data;
+		}
+
+	}
+
+
 }
