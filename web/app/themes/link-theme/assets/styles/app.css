@@ -1772,30 +1772,13 @@ header.sticky_header {
   }
 }
 
-#masthead {
-  background-color: #18181c;
-  margin: 0;
-  padding: 14px;
-  box-shadow: 0 0 42px rgba(0, 0, 0, 0.08);
-  transition: all ease-in-out 0.4s;
-}
-
-.navbar > .container,
-.navbar > .container-flui {
-  justify-content: left;
-}
-
 /*  ----------------------------------------------------
 3 Footer
 -------------------------------------------------------- */
 
 footer {
-  padding: 16px 18px 14px;
+  padding: 50px 0 100px;
   background-color: #0b031b;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
 }
 
 footer .footer_box {
@@ -1908,13 +1891,5 @@ footer .newsletter_form .form-control {
   .copyright_footer {
     text-align: center;
   }
-}
-
-/*  ----------------------------------------------------
-4 Home
--------------------------------------------------------- */
-
-.hedaer-cover {
-  background-size: cover;
 }
 
