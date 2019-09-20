@@ -1,11 +1,8 @@
 <?php
 /**
  * The header for our theme
- *
  * This is the template that displays all of the <head> section and everything up until <div id="content">
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
- *
+ * 
  * @package events-theme
  */
 
@@ -18,16 +15,21 @@
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 
 	<?php wp_head(); ?>
+	<link rel="stylesheet" href="<?php echo get_template_directory_uri().'/assets/styles/app.css'?>">
 </head>
 
 <body <?php body_class(); ?>>
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'events-theme' ); ?></a>
 
-	<header id="masthead" class="site-header">
-		<div class="site-branding">
+	<header id="masthead" class="site-header header navbar navbar-expand-md">
+		<div class="site-branding container">
+			<!-- logo  -->
+			<a class="navbar-brand logo" href="#">
+				<?php the_custom_logo(); ?>
+        	</a>
+			
 			<?php
-			the_custom_logo();
 			if ( is_front_page() && is_home() ) :
 				?>
 				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
@@ -50,6 +52,7 @@
 			wp_nav_menu( array(
 				'theme_location' => 'menu-1',
 				'menu_id'        => 'primary-menu',
+				'menu_class' => 'nav navbar-nav menu',
 			) );
 			?>
 		</nav><!-- #site-navigation -->
