@@ -18,15 +18,19 @@ get_header();
 ?>
 	<div class="container">
 		<div class="col-md-9">
-			<h3><?php echo $event_data->event_title ?></h3>
-			<div class="img-container">
+			<h3 class="single-title"><?php echo $event_data->event_title ?></h3>
+			<div class="single-img-container">
 				<img src="<?php echo wp_get_attachment_image_src($event_data->event_cover_image,0)[0] ?>" alt="">
 			</div>
 
-			<div class="info-boxes">
-			<?php echo $event_data->event_date ?>
-			<?php echo $event_data->event_start_time ?>
-			<?php echo $event_data->event_end_time ?>
+			<div >
+				<ul class="info-boxes">
+					<li> <?php echo date( "M d, Y", strtotime($event_data->event_date))  ?> </li>
+					<li>From: <?php echo date( "H:i A", strtotime($event_data->event_start_time)) ?> </li>
+					<li>To: <?php echo date( "H:i A", strtotime($event_data->event_end_time)) ?> </li>
+
+				</ul>
+			
 			</div>
 
 			<div class="desc-text">

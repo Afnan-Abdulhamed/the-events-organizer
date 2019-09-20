@@ -14,7 +14,7 @@
     background: hsl(0, 0%, 100%);
     color: hsl(0, 0%, 10%);
     border-radius: 4px;
-    box-shadow: hsl(0, 65%, 68%) 0 0 16px;
+    box-shadow: hsl(0, 0%, 80%) 0 0 16px;
     padding: 16px;
     margin-bottom: 20px;
 
@@ -25,6 +25,7 @@
     height: 120px;
     overflow: hidden;
     float:left;
+    width: 100%;
 }
 
 .img-container img{
@@ -87,4 +88,73 @@
     margin-bottom: 15px;
     font-weight: bold;
     color: #f50136;
+}
+
+/* single page  */
+.single-title{
+    font-size: 35px;
+    margin-top: 28px;
+}
+
+
+.info-boxes{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.info-boxes li {
+    float: left;
+    padding: 13px;
+    border: 2px solid #f5f5f5;
+    border-radius: 11px;
+    width: 29%;
+    /* box-shadow: hsla(0, 0%, 79%, 0.33) 5px 6px 6px 0px; */
+    margin-right: 34px;
+    margin-top: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: #8e8e8e;
+    margin-bottom: 30px;
+}
+.desc-text{
+    margin-bottom: 50px;
+    font-size: 15px;
+}
+.event-title{
+    margin-bottom: 0;
+}
+.event-time{
+    font-size: 10px;
+}
+.home-title{
+    margin: 0;
+    color: white;
+    width: 50%;
+    text-align: center;
+    margin: auto;
+    padding-top: 50px;
+}
+.home-txt{
+    margin: auto;
+    width: 10%;
+    /* border: 3px solid green; */
+    padding: 10px;
+    padding-top: 10%;
+}
+.past-link.home-link{
+    padding: 10px 20px;
+    color: white;
+    width: 166px;
+    margin: 0 auto;
+}
+.single-item-desc{
+    color: #4e4e4e;
+    padding-top: 16px;
+}
+.event-time p{
+    font-size: 13px;
+    color: #f50136;
+}
+.br{
+    border-right: 2px solid #dadada42;
 }
