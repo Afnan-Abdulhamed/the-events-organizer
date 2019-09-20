@@ -1792,7 +1792,6 @@ header.sticky_header {
 footer {
   padding: 16px 18px 14px;
   background-color: #0b031b;
-  position: fixed;
   bottom: 0;
   width: 100%;
   text-align: center;
