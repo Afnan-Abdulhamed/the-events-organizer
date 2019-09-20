@@ -14,7 +14,7 @@ $query  = $events->upcoming_events();
 
 // pagination handling section
 $total_events    =  $wpdb->get_var( "SELECT COUNT(1) FROM (${query}) AS combined_table" );
-$events_per_page =  3;
+$events_per_page =  5;
 $page            =  isset( $_GET['cpage'] ) ? abs( (int) $_GET['cpage'] ) : 1;
 $offset          =  ( $page * $events_per_page ) - $events_per_page;
 $latest_events   =  $wpdb->get_results( "SELECT * FROM (${query}) AS lates LIMIT ${offset}, ${events_per_page}" );

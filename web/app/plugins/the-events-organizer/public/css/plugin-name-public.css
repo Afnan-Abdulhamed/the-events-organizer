@@ -2,3 +2,89 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+ body{
+    background: #f5f5f57d;
+ }
+
+.single-event{
+    padding: 0;
+    border-radius: 9px;
+    border-radius: 4px;
+    background: hsl(0, 0%, 100%);
+    color: hsl(0, 0%, 10%);
+    border-radius: 4px;
+    box-shadow: hsl(0, 0%, 80%) 0 0 16px;
+    padding: 16px;
+    margin-bottom: 20px;
+
+}
+
+.img-container{
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    float:left;
+}
+
+.img-container img{
+    width: 100%;
+    height: auto;
+}
+
+.text-container{
+    /* float: left;
+    padding-left: 23px; */
+}
+.title-line{
+
+}
+
+.page-numbers{
+    padding: 6px 12px;
+    /* width: 76px; */
+    background: #f2f2f2;
+    /* height: 50px; */
+    border-radius: 3px;
+    margin-right: 4px;
+}
+.page-numbers.current{
+    background: #f50136;;
+}
+.pagenation{
+    float: right;
+    margin: 38px 0;
+}
+.past-link{
+    float: right;
+    clear: both;
+    padding: 7px 11px;
+    background: #f50136;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 3px;
+    margin-top: 34px;
+}
+
+.title{
+    font-size: 25px;
+    margin-top: 34px;
+    margin-bottom: 10x;
+}
+
+.title-line{
+    background-color: #f50136;
+    border: 0;
+    height: 1px;
+    margin: 0;
+    max-width: 100px;
+    margin-bottom: 16px;
+    height: 2px;
+}
+.date-title{
+    margin-top: 20px;
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #f50136;
+}

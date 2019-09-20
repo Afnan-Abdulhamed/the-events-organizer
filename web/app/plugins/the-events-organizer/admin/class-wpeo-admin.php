@@ -181,7 +181,7 @@ class WPEO_Admin
 
     
     /**
-     * store event meta data
+     * store event meta data(event date and time from edit form)
      *
      * @param id $post_id
      * @param object $post

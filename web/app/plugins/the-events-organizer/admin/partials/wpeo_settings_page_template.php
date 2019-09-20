@@ -7,7 +7,7 @@
 ?>
 <h1>The Events Organizer Settings</h1>
     
-<form method="post" action="">
+<form method="post" action="options.php">
 
 	<?php settings_fields('wpeo-settings-group'); ?>
 	<?php do_settings_sections('wpeo-settings-group'); ?>
