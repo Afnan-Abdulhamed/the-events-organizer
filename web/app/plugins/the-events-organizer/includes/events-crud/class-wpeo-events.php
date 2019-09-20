@@ -28,8 +28,6 @@ class WPEO_Events{
 		add_action('delete', array($this, 'delete'));
 		// status transitions
 		add_action('on_all_status_transitions', array($this, 'on_all_status_transitions'));
-		// get single event data
-		add_action('sing_event', array($this, 'sing_event'));
     }
 
 
@@ -159,4 +157,33 @@ class WPEO_Events{
 	}
 
 
+
+	/**
+	 * get upcoming events
+	 * used by events archive 
+	 * 
+	 * @return void
+	 */
+	function upcoming_events( $interval = null )
+	{ 
+		global $wpdb;
+
+		// check for past events
+		$constrains =  ( isset($_GET['past']) && $_GET['past'] == 1 ) ? '<' : '>';
+
+		$time = date('H:i:s');
+		$date = date('Y-m-d');
+		$table_name = $wpdb->prefix . 'wpeo_events';
+		$listing_count = get_option('wpeo_events_listing_no'); // number of events to list from the plugin settings
+		
+		// query to select active ucoming events
+		$query = "SELECT * 
+					FROM $table_name As events
+					WHERE event_status = 1
+					AND (  event_date $constrains '$date'  OR (`event_date` =  '$date' AND `event_start_time` $constrains '$time') 
+						)
+					ORDER by event_date, event_start_time DESC LIMIT $listing_count ";
+		
+		return $query;
+	}
 }
