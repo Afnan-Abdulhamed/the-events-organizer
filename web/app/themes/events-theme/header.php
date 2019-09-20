@@ -26,7 +26,7 @@
 		<div class="site-branding container">
 			<!-- logo  -->
 			<a class="navbar-brand logo" href="#">
-				<?php the_custom_logo(); ?>
+				 <img src=" <?php echo get_template_directory_uri()?> /assets/images/logo.png"> 
         	</a>
 			
 			<?php
@@ -49,11 +49,11 @@
 		<nav id="site-navigation" class="main-navigation">
 			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'events-theme' ); ?></button>
 			<?php
-			wp_nav_menu( array(
-				'theme_location' => 'menu-1',
-				'menu_id'        => 'primary-menu',
-				'menu_class' => 'nav navbar-nav menu',
-			) );
+			// wp_nav_menu( array(
+			// 	'theme_location' => 'menu-1',
+			// 	'menu_id'        => 'primary-menu',
+			// 	'menu_class' => 'nav navbar-nav menu',
+			// ) );
 			?>
 		</nav><!-- #site-navigation -->
 	</header><!-- #masthead -->
