@@ -27,14 +27,15 @@ git clone https://github.com/Afnan-Abdulhamed/the-events-organizer.git
 composer install
 ```
 
-* Create a database and user in .env with the details below:
+* copy .env.example to .env 
+
+* Create a database and change the credentials in .env with the details below:
 ```
 DB_NAME="events-organizer"    
 DB_USER="root"    
 DB_PASSWORD=""   
 DB_HOST=localhost   
 ```
-
 
 * While in the project root directory, install all JS work using node   
 Note: this step needed for assets building (with laramix) during development phase, If you do not need to add any new assets skip this step 
@@ -47,12 +48,14 @@ npm run production
 ```
 * login to the dashboard and follow wordpress installation steps 
 ```
- http://environmenturl/wp/wp-admin
+ http://environmenturl/web/wp/wp-admin
 ```
 
 * from dashboard > apperance > themes please active the events-theme  
 
-* from dashboard > plugins please active the events organizer plugin
+* from dashboard > plugins please active the events organizer plugin  
+
+* update permalinks from dashboard > settings > permalink please active the events organizer plugin
 
 ## Built With
 * [Wordpress](https://wordpress.com) - The CMS used
@@ -64,8 +67,6 @@ npm run production
 Depending what you're URL is locally, you should be able to login as follows:
 
 **URL:**  http://environmenturl/wp/wp-admin   
-**User:**  admin   
-**Password:** admin1234
 
 
 ## Event Plugin
