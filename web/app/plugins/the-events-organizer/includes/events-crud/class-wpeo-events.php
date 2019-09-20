@@ -169,7 +169,8 @@ class WPEO_Events{
 		global $wpdb;
 
 		// check for past events
-		$constrains =  ( isset($_GET['past']) && $_GET['past'] == 1 ) ? '<' : '>';
+		$constrains = ( isset($_GET['past']) && $_GET['past'] == 1 ) ? '<' : '>';
+		$order=  ( isset($_GET['past']) && $_GET['past'] == 1 ) ? 'DESC' : 'ASC';
 
 		$time = date('H:i:s');
 		$date = date('Y-m-d');
@@ -182,7 +183,7 @@ class WPEO_Events{
 					WHERE event_status = 1
 					AND (  event_date $constrains '$date'  OR (`event_date` =  '$date' AND `event_start_time` $constrains '$time') 
 						)
-					ORDER by event_date, event_start_time DESC LIMIT $listing_count ";
+					ORDER by event_date $order, event_start_time DESC LIMIT $listing_count ";
 		
 		return $query;
 	}
