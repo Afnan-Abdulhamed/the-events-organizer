@@ -104,7 +104,7 @@ class WPEO_Schema {
 			event_cover_image bigint(20) unsigned NOT NULL,
 			event_author bigint(20) unsigned NOT NULL default '0',
 			event_status tinyint(1) NOT NULL default '1',
-			deleted_at datetime NOT NULL default '0000-00-00 00:00:00'
+			deleted_at datetime NOT NULL default '0000-00-00 00:00:00',
 			PRIMARY KEY  (ID),
 			KEY event_author (event_author),
 			KEY post_id (post_id)
