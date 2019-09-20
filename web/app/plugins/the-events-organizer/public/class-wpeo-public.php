@@ -45,8 +45,8 @@ class WPEO_Public {
 	 */
 	public function __construct( $plugin_name, $version ) {
 
+		$this->version     = $version;
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
 		
 		// public interface hooks
 		add_filter( 'template_include', array( $this, 'include_events_archive_template'), 99 );
@@ -62,7 +62,6 @@ class WPEO_Public {
 	public function enqueue_styles() {
 		wp_enqueue_style( 'bootstrap', "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/plugin-name-public.css', array(), $this->version, 'all' );
-
 	}
 
 
@@ -72,14 +71,14 @@ class WPEO_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/plugin-name-public.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script(  $this->plugin_name, 'my_ajax_object',array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 	}
 
 
 	/**
 	 * events archive page template
-	 * this template include if the theme dosnt have archive-events.php
+	 * this template include if the theme dose not have archive-events.php
 	 *
 	 * @since 
 	 * @param object $archive_template
